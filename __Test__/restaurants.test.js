@@ -2,17 +2,15 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
-const Menu = require('../lib/models/Menus.js');
 const Restaurant = require('../lib/models/Restaurants.js');
 
-describe('PLACEHOLDER', () => {
+describe('restaurant tests', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
   afterAll(() => {
     return pool.end();
   });
-
   it('Create a restaurant', async () => {
     const res = await request(app)
       .post('/restaurants')
@@ -44,18 +42,13 @@ describe('PLACEHOLDER', () => {
     expect(res.body).toHaveLength(restaurants.length);
   });
 
-  it('Get all menus from reasuratnt id', async () => {
-    await Promise.all([
-      { name: 'menu decoy id 1' },
-      { name: 'menu decoy id 2' },
-      { name: 'menu decoy id 3' }
-    ].map(menu => Menu.insert(menu)));
-    const restaurant = await Restaurant.insert({ location: 'location for get by id', menus: ['menu decoy id 1', 'menu decoy id 2'] });
+  it('Get by id', async () => {
+    const restaurant = await Restaurant.insert({ location: 'location for get by id' });
     const res = await request(app)
       .get(`/restaurants/${restaurant.id}`);
     expect(res.body).toEqual({
-      ...restaurant,
-      menus: ['menu decoy id 1', 'menu decoy id 2']
+      id: '1',
+      location: 'location for get by id'
     });
   });
 
