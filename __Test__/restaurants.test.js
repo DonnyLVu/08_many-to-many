@@ -2,6 +2,7 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
+const Restaurant = require('../lib/models/Restaurants.js');
 
 describe('restaurant tests', () => {
   beforeEach(() => {
@@ -21,5 +22,23 @@ describe('restaurant tests', () => {
       location: 'location for create test'
     });
   });
+  it('Get ALL restaurants', async () => {
+    const restaurants = await Promise.all([
+      {
+        location: 'location 1 for all'
+      },
+      {
+        location: 'location 2 for all'
+      },
+      {
+        location: 'location 3 for all'
+      }
+    ].map(restaurant => Restaurant.insert(restaurant)));
 
+    const res = await request(app)
+      .get('/restaurants');
+
+    expect(res.body).toEqual(expect.arrayContaining(restaurants));
+    expect(res.body).toHaveLength(restaurants.length);
+  });
 });
