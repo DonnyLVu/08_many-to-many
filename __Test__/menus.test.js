@@ -41,4 +41,15 @@ describe('Menu app tests', () => {
     expect(res.body).toEqual(expect.arrayContaining(menus));
     expect(res.body).toHaveLength(menus.length);
   });
+
+  it('Get by id', async () => {
+    const menu = await Menu.insert({ name: 'get by id' });
+
+    const res = await request(app)
+      .get(`/menus/${menu.id}`);
+    expect(res.body).toEqual({
+      id: menu.id,
+      name: 'get by id'
+    });
+  });
 });
