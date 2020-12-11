@@ -51,4 +51,19 @@ describe('restaurant tests', () => {
       location: 'location for get by id'
     });
   });
+
+  it('Updates a restauramt', async () => {
+    const restaurant = await Restaurant.insert({ location: 'location for update' });
+
+    const res = await request(app)
+      .put(`/restaurants/${restaurant.id}`)
+      .send({
+        location: 'return new location for update'
+      });
+
+    expect(res.body).toEqual({
+      id: '1',
+      location: 'return new location for update'
+    });
+  });
 });
