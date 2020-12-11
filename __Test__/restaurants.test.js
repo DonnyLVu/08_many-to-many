@@ -54,16 +54,24 @@ describe('restaurant tests', () => {
 
   it('Updates a restauramt', async () => {
     const restaurant = await Restaurant.insert({ location: 'location for update' });
-
     const res = await request(app)
       .put(`/restaurants/${restaurant.id}`)
       .send({
         location: 'return new location for update'
       });
-
     expect(res.body).toEqual({
       id: '1',
       location: 'return new location for update'
+    });
+  });
+
+  it('Deletes a restaurant', async () => {
+    const restaurant = await Restaurant.insert({ location: 'location for delete' });
+    const res = await request(app)
+      .delete(`/restaurants/${restaurant.id}`);
+    expect(res.body).toEqual({
+      id: '1',
+      location: 'location for delete'
     });
   });
 });
