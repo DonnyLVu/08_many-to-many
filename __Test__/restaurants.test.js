@@ -22,6 +22,7 @@ describe('restaurant tests', () => {
       location: 'location for create test'
     });
   });
+
   it('Get ALL restaurants', async () => {
     const restaurants = await Promise.all([
       {
@@ -37,8 +38,17 @@ describe('restaurant tests', () => {
 
     const res = await request(app)
       .get('/restaurants');
-
     expect(res.body).toEqual(expect.arrayContaining(restaurants));
     expect(res.body).toHaveLength(restaurants.length);
+  });
+
+  it('Get by id', async () => {
+    const restaurant = await Restaurant.insert({ location: 'location for get by id' });
+    const res = await request(app)
+      .get(`/restaurants/${restaurant.id}`);
+    expect(res.body).toEqual({
+      id: '1',
+      location: 'location for get by id'
+    });
   });
 });
