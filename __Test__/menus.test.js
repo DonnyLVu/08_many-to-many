@@ -11,36 +11,16 @@ describe('Menu app tests', () => {
   afterAll(() => {
     return pool.end();
   });
-  // it('Creates a menu', async () => {
-  //   const res = await request(app)
-  //     .post('/menus')
-  //     .send({
-  //       length: 'Chattanooga, TN',
-  //       length: 'creates menu',
-  //       type: 'create menu should go here',
-  //       restaurantId: restaurant.id
-  //     });
 
-  //   expect(res.body).toEqual({
-  //     id: '1',
-  //     location: 'Chattanooga, TN'
-  //   });
-  // });
+  it('Creates menu', async () => {
+    const res = await request(app)
+      .post('/menus')
+      .send({
+        name: 'name for create menu'
+      });
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'name for create menu'
+    });
+  });
 });
-
-// it('creates a menu', async () => {
-//   const restaurant = await Restaurant.insert({ name: 'creates name', location: 'create location should go here' });
-//   const res = await request(app)
-//     .post('/menus')
-//     .send({
-//       length: 'creates menu',
-//       type: 'create menu should go here',
-//       restaurantId: restaurant.id
-//     });
-//   expect(res.body).toEqual({
-//     id: '1',
-//     length: 'creates menu',
-//     type: 'create menu should go here',
-//     restaurantId: restaurant.id
-//   });
-// });
