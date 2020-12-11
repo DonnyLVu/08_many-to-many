@@ -44,12 +44,36 @@ describe('Menu app tests', () => {
 
   it('Get by id', async () => {
     const menu = await Menu.insert({ name: 'get by id' });
-
     const res = await request(app)
       .get(`/menus/${menu.id}`);
     expect(res.body).toEqual({
       id: menu.id,
       name: 'get by id'
+    });
+  });
+
+  it('Updates a menu', async () => {
+    const menu = await Menu.insert({ name: 'update menu time' });
+    const res = await request(app)
+      .put(`/menus/${menu.id}`)
+      .send({
+        name: 'updated menu should return'
+      });
+    expect(res.body).toEqual({
+      id: menu.id,
+      name: 'updated menu should return'
+    });
+  });
+
+  it('Removes a Snack by id via DELETE', async () => {
+    const menu = await Menu.insert({
+      name: 'delete test'
+    });
+    const res = await request(app)
+      .delete(`/menus/${menu.id}`);
+    expect(res.body).toEqual({
+      id: menu.id,
+      name: 'delete test'
     });
   });
 });
